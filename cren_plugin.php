@@ -83,7 +83,12 @@ function cren_comment_notification($commentId, $comment) {
 
         add_filter('wp_mail_content_type', 'cren_wp_mail_content_type_filter');
 
-        wp_mail($email, $title, $body);
+        $header = [
+			'List-Unsubscribe-Post: List-Unsubscribe=One-Click',
+			'List-Unsubscribe: <'. echo cren_get_unsubscribe_link($parent) . '>'
+		];
+		
+		wp_mail($email, $title, $body, $header);
 
         remove_filter('wp_mail_content_type', 'cren_wp_mail_content_type_filter');
     }
